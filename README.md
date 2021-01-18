@@ -1,6 +1,10 @@
 # Swoop DEX Interface (integration with BandChain and Binance.us API)
 [![Styled With Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
 ### [Link to demo video](https://youtu.be/1wethoG_2XQ)
+## Overview
+Integration of Band Standard Dataset reference price data enables users to determine if they are getting a good trade on Swoop DEX. Additionally, it also helps users determine the correct ratio of tokens to provide when they are the first liquidity provider.
+
+Integration of Binance.us price data and providing direct links to relevant trading pairs exposes users to arbitrage opportunities, increasing the efficiency of Swoop DEX.
 ## Configuration
 ### Assigning reference price data to custom tokens
 Modify `src/constants/symbolvalues.ts` as follows:
