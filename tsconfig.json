@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "experimentalDecorators": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -27,17 +23,8 @@
     "jsx": "preserve",
     "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "react-spring",
-      "jest"
-    ]
+    "types": ["react-spring", "jest"]
   },
-  "exclude": [
-    "node_modules",
-    "cypress"
-  ],
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx"
-  ]
+  "exclude": ["node_modules", "cypress"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

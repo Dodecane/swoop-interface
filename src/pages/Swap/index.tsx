@@ -44,6 +44,10 @@ import { ClickableText } from '../Pool/styleds'
 
 import { useActiveHmyReact } from '../../hooks'
 
+import BandPrice from '../../components/swap/BandPrice'
+import QuestionHelper from '../../components/QuestionHelper'
+import BinanceUSPrice from '../../components/swap/BinanceUSPrice'
+
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
 
@@ -276,12 +280,12 @@ export default function Swap() {
   const handleWrap = useCallback(() => {
     setWrapInProgress(true)
     onWrap()
-    .then(() => {
-      setWrapInProgress(false)
-    })
-    .catch((error: any) => {
-      setWrapInProgress(false)
-    })
+      .then(() => {
+        setWrapInProgress(false)
+      })
+      .catch((error: any) => {
+        setWrapInProgress(false)
+      })
   }, [onWrap])
 
   useEffect(() => {}, [wrapInProgress])
@@ -382,6 +386,25 @@ export default function Swap() {
                       setShowInverted={setShowInverted}
                     />
                   </RowBetween>
+                  <RowBetween align="center">
+                    <Text fontWeight={500} fontSize={14} color={theme.text2}>
+                      Market price
+                      <QuestionHelper text="Reference price data provided by Band Protocol" />
+                    </Text>
+                    <BandPrice
+                      inputCurrency={currencies[Field.INPUT]}
+                      outputCurrency={currencies[Field.OUTPUT]}
+                      price={trade?.executionPrice}
+                      showInverted={showInverted}
+                    />
+                  </RowBetween>
+                  <RowBetween align="center">
+                    <BinanceUSPrice
+                      inputCurrency={currencies[Field.INPUT]}
+                      outputCurrency={currencies[Field.OUTPUT]}
+                      showInverted={showInverted}
+                    />
+                  </RowBetween>
 
                   {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
                     <RowBetween align="center">
@@ -401,16 +424,21 @@ export default function Swap() {
             {!account ? (
               <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
             ) : showWrap ? (
-              <ButtonPrimary
-              disabled={Boolean(wrapInputError)}
-              onClick={handleWrap}>
+              <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={handleWrap}>
                 {wrapInputError ??
-                  (
-                    wrapType === WrapType.WRAP ? (wrapInProgress ? <Dots>Wrapping</Dots> : 'Wrap') : 
-                    wrapType === WrapType.UNWRAP ? (wrapInProgress ? <Dots>Unwrapping</Dots> : 'Unwrap') :
-                    null
-                  )
-                }
+                  (wrapType === WrapType.WRAP ? (
+                    wrapInProgress ? (
+                      <Dots>Wrapping</Dots>
+                    ) : (
+                      'Wrap'
+                    )
+                  ) : wrapType === WrapType.UNWRAP ? (
+                    wrapInProgress ? (
+                      <Dots>Unwrapping</Dots>
+                    ) : (
+                      'Unwrap'
+                    )
+                  ) : null)}
               </ButtonPrimary>
             ) : noRoute && userHasSpecifiedInputOutput ? (
               <GreyCard style={{ textAlign: 'center' }}>
@@ -454,12 +482,13 @@ export default function Swap() {
                   error={isValid && priceImpactSeverity > 2}
                 >
                   <Text fontSize={16} fontWeight={500}>
-                    {
-                      attemptingTxn && isExpertMode
-                      ? <Dots>Swapping</Dots>
-                      : priceImpactSeverity > 3 && !isExpertMode
-                      ? `Price Impact High`
-                      : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                    {attemptingTxn && isExpertMode ? (
+                      <Dots>Swapping</Dots>
+                    ) : priceImpactSeverity > 3 && !isExpertMode ? (
+                      `Price Impact High`
+                    ) : (
+                      `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`
+                    )}
                   </Text>
                 </ButtonError>
               </RowBetween>
@@ -483,14 +512,15 @@ export default function Swap() {
                 error={isValid && priceImpactSeverity > 2 && !swapCallbackError}
               >
                 <Text fontSize={20} fontWeight={500}>
-                  {
-                    attemptingTxn && isExpertMode
-                    ? <Dots>Swapping</Dots>
-                    : swapInputError
-                    ? swapInputError
-                    : priceImpactSeverity > 3 && !isExpertMode
-                    ? `Price Impact Too High`
-                    : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                  {attemptingTxn && isExpertMode ? (
+                    <Dots>Swapping</Dots>
+                  ) : swapInputError ? (
+                    swapInputError
+                  ) : priceImpactSeverity > 3 && !isExpertMode ? (
+                    `Price Impact Too High`
+                  ) : (
+                    `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`
+                  )}
                 </Text>
               </ButtonError>
             )}
